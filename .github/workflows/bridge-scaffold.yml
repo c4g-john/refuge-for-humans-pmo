@@ -1,0 +1,32 @@
+name: bridge scaffold
+
+# Documents -> GitHub: when docs change on main, scaffold Features/Stories in
+# the app repo from the approved user stories. Dormant until the repo variable
+# BRIDGE_ENABLED is 'true' and the PROJECTS_TOKEN secret exists (cross-repo
+# issue writes need it; the board, later, needs its project scope).
+on:
+  push:
+    branches: [main]
+    paths: ["documents/**", ".docassert-version"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scaffold:
+    if: vars.BRIDGE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: pip install "docassert==$(head -n1 .docassert-version)"
+      - name: Scaffold the app repo from approved stories
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+        run: |
+          docassert bridge scaffold \
+            --repo c4g-john/refuge-for-humans-app \
+            --docs-url https://github.com/c4g-john/refuge-for-humans-pmo/blob/main
