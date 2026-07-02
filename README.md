@@ -1,5 +1,7 @@
 # Refuge for Humans — PMO
 
+[![pmo docs](https://img.shields.io/endpoint?url=https%3A%2F%2Fc4g-john.github.io%2Frefuge-for-humans-pmo%2Fbadge.json)](https://c4g-john.github.io/refuge-for-humans-pmo/)
+
 The Refuge for Humans project run as
 [PMO as Code](https://c4g-john.github.io/pmo-as-code/): the document spine under
 `documents/PRJ-001-RFH/`, gated by [docassert](https://github.com/c4g-john/docassert)
