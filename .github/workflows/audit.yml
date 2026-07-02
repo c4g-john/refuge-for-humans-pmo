@@ -22,7 +22,7 @@ jobs:
       - uses: c4g-john/docassert-action@v1
         with:
           command: validate
-          version: '0.7.0'
+          version-file: '.docassert-version'
           changed-only: 'true'
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}   # optional
 
@@ -33,7 +33,7 @@ jobs:
       - uses: c4g-john/docassert-action@v1
         with:
           command: consistency
-          version: '0.7.0'
+          version-file: '.docassert-version'
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}   # optional
 
   skill-drift:
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version: "3.12"
-      - run: pip install "docassert==0.7.0"
+      - run: pip install "docassert==$(head -n1 .docassert-version)"
       - name: Skill is current with docassert
         run: |
           python - <<'PY'
