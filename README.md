@@ -1,6 +1,6 @@
 # Refuge for Humans — PMO
 
-**Confidential — private repo.** The Refuge for Humans project run as
+The Refuge for Humans project run as
 [PMO as Code](https://c4g-john.github.io/pmo-as-code/): the document spine under
 `documents/PRJ-001-RFH/`, gated by [docassert](https://github.com/c4g-john/docassert)
 on every pull request, converted faithfully from `Refuge for Humans BRD.docx`
@@ -26,6 +26,5 @@ docassert validate documents/**/*.md
 docassert status --project PRJ-001-RFH
 ```
 
-The status dashboard workflow is present but gated off (`DOCASSERT_PAGES`
-variable) — GitHub Pages on a private repo depends on the account plan.
-`STATUS.md` is the committed snapshot meanwhile.
+**Live dashboard:** https://c4g-john.github.io/refuge-for-humans-pmo/ —
+rebuilt on every push to `main`. `STATUS.md` is the committed snapshot.
