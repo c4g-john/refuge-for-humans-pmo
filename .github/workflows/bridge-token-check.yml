@@ -1,0 +1,33 @@
+name: bridge token check
+
+# Dispatch-only diagnostic: exercises PROJECTS_TOKEN's capabilities without
+# printing the token. Safe to re-run any time credentials change.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+    steps:
+      - name: Issues access on the app repo
+        run: |
+          gh api repos/c4g-john/refuge-for-humans-app/issues?per_page=1 >/dev/null \
+            && echo "issues: OK" || echo "issues: FAILED"
+      - name: Issue-write access (create + close a canary label)
+        run: |
+          gh api repos/c4g-john/refuge-for-humans-app/labels -X POST \
+            -f name=token-canary -f color=cccccc >/dev/null 2>&1 || true
+          gh api repos/c4g-john/refuge-for-humans-app/labels/token-canary -X DELETE \
+            && echo "issues-write: OK" || echo "issues-write: FAILED"
+      - name: Projects v2 scope
+        env:
+          QUERY: |
+            query { viewer { projectsV2(first: 3) { totalCount nodes { number title } } } }
+        run: |
+          gh api graphql -f query="$QUERY" \
+            && echo "projects-scope: OK" || echo "projects-scope: FAILED"
