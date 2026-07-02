@@ -6,8 +6,10 @@
 on every pull request, converted faithfully from `Refuge for Humans BRD.docx`
 (v1.0, March 2026).
 
-**Faithful over passing:** where the source BRD has gaps, the documents fail the
-audit *on purpose*. Current blocking findings to resolve:
+**Faithful over passing:** where the source BRD has gaps, the audit reports
+them. Everything is `status: draft`, so (as of docassert 0.7.0) the gaps are
+**advisory** — drafts merge; flipping a document to `proposed` turns its
+completeness gate on. The to-do list:
 
 - **Charter** — the source names no **budget** and no **target date**; sponsor
   is the company, not a person. Milestones are missing entirely.

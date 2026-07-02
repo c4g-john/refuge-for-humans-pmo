@@ -22,7 +22,7 @@ jobs:
       - uses: c4g-john/docassert-action@v1
         with:
           command: validate
-          version: '0.6.0'
+          version: '0.7.0'
           changed-only: 'true'
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}   # optional
 
@@ -33,5 +33,5 @@ jobs:
       - uses: c4g-john/docassert-action@v1
         with:
           command: consistency
-          version: '0.6.0'
+          version: '0.7.0'
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}   # optional
