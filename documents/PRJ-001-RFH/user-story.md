@@ -4,7 +4,7 @@ id: RFH-user-story
 project: PRJ-001-RFH
 title: Refuge for Humans — User Stories
 owner: johntanner
-status: proposed
+status: approved
 ---
 
 ## Overview
