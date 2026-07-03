@@ -4,7 +4,7 @@ id: RFH-frnfr
 project: PRJ-001-RFH
 title: Refuge for Humans — Functional & Non-Functional Requirements
 owner: johntanner
-status: draft
+status: approved
 ---
 
 ## Overview

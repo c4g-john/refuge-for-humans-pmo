@@ -4,7 +4,7 @@ id: RFH-prd
 project: PRJ-001-RFH
 title: Refuge for Humans — Product Requirements
 owner: johntanner
-status: draft
+status: approved
 ---
 
 ## Overview
@@ -37,3 +37,13 @@ thoughtful writing space, not a security checkpoint.
 - **RFH-AC-004** (verifies: RFH-PR-003): Given a user writing in the textarea, when 500ms elapse, then the displayed human-confidence score has refreshed.
 - **RFH-AC-005** (verifies: RFH-PR-007): Given a user with 10 or more prior posts, when a new post scores within generic thresholds but deviates sharply from the user's baseline, then the deviation dominates the verdict.
 - **RFH-AC-006** (verifies: RFH-PR-009): Given 5 or more accounts sharing above-threshold fingerprint similarity, when the asynchronous comparison completes, then the cluster appears in the administrator investigation queue.
+- **RFH-AC-007** (verifies: RFH-PR-001): Given a user opens the writing page, when the daily prompt has not yet been presented, then the writing textarea is inactive.
+- **RFH-AC-008** (verifies: RFH-PR-002): Given a user loads the writing page, when the first keystroke occurs, then the collected signal timeline already contains events from before that keystroke.
+- **RFH-AC-009** (verifies: RFH-PR-004): Given a draft below the configured minimum length (default 20 characters), when the user reaches the threshold, then the submit button changes from disabled to enabled.
+- **RFH-AC-010** (verifies: RFH-PR-004): Given a user pastes text into the textarea, when the paste event fires, then a visible, non-blocking notification appears and typing is not interrupted.
+- **RFH-AC-011** (verifies: RFH-PR-005): Given a submission with any composite score, when the client submits, then the signal payload is transmitted to the backend and the composite equals 60% behavioral plus 40% content.
+- **RFH-AC-012** (verifies: RFH-PR-008): Given a suspect-verdict submission pending review, when fingerprints update, then that submission is excluded from the user's fingerprint.
+- **RFH-AC-013** (verifies: RFH-PR-008): Given an account whose new composite score is more than 20 points below its rolling mean, when scoring completes, then the account is flagged.
+- **RFH-AC-014** (verifies: RFH-PR-010): Given an administrator viewing a user, when the record opens, then signal history, fingerprint, and verdict views are available and a manual verdict override can be applied.
+- **RFH-AC-015** (verifies: RFH-PR-010): Given any administrative action, when it completes, then the audit log holds an entry with timestamp and operator ID.
+- **RFH-AC-016** (verifies: RFH-PR-010): Given the daily metrics dashboard, when an administrator opens it, then post volume, bot block rate, suspect rate, and false-positive reports are shown.
