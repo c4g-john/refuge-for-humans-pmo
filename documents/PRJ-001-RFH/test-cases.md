@@ -14,7 +14,7 @@ test cases of its own; these exercise its stated thresholds and SLAs).
 
 ## Test Cases
 
-- **RFH-TC-001** (tests: RFH-AC-001): Steps: submit a post whose composite score is 70 or above. Expected: the post is published with a human verdict.
+- **RFH-TC-001** (tests: RFH-AC-001): Steps: submit a post whose composite score is 70 or above. Expected: the post proceeds to publication.
 - **RFH-TC-002** (tests: RFH-AC-002): Steps: submit a post whose composite score is below 40. Expected: publication is blocked and a plain-language explanation is shown.
 - **RFH-TC-003** (tests: RFH-AC-003): Steps: submit a post and measure time from submission to verdict. Expected: the verdict arrives within 2 seconds.
 - **RFH-TC-004** (tests: RFH-AC-004): Steps: type continuously for 10 seconds while sampling the on-screen score. Expected: the score refreshes at least every 500ms.
