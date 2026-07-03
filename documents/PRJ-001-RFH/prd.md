@@ -18,7 +18,7 @@ thoughtful writing space, not a security checkpoint.
 
 ## Product Requirements
 
-- **RFH-PR-001** (traces: RFH-BR-003): The platform shall present a daily prompt before the writing textarea is active.
+- **RFH-PR-001** (traces: RFH-BR-008): The platform shall present a daily prompt before the writing textarea is active.
 - **RFH-PR-002** (traces: RFH-BR-003): Signal collection shall begin at page load, before the user has typed anything.
 - **RFH-PR-003** (traces: RFH-BR-006): The human confidence score shall be displayed in real time, updating at minimum every 500ms, with individual signal indicators visible during writing.
 - **RFH-PR-004** (traces: RFH-BR-001): The submit button shall be disabled until a configurable minimum character threshold (default 20) is reached, so that every submission carries enough behavioral signal for a reliable verdict, and paste events shall trigger a visible, non-blocking notification so pasted text is weighed by the content heuristics.

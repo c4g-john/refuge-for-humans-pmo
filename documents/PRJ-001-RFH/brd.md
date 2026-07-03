@@ -27,11 +27,14 @@ cross-account pattern analysis.
 - **RFH-BR-005**: The business shall identify coordinated bot networks of 5 or more accounts within 48 hours of activation.
 - **RFH-BR-006**: The business shall hold verification friction below 1% of users contacting support about verification issues.
 - **RFH-BR-007**: The business shall build a compounding behavioral and content signal corpus as a durable data asset.
+- **RFH-BR-008**: The business shall establish daily writing as a habit, with the daily prompt anchoring a per-day engagement loop, targeting a daily-to-weekly active writer ratio of 40% or higher at steady state.
 
 ## Out of Scope
 
 Out of scope for Version 1.0: server-side AI content detection using external
 APIs or LLM classifiers; image, video, or audio post verification; real-time
 human agent review of suspect posts; the third-party verification API (planned
-for v2.0); a mobile native SDK for signal collection; and integration with
-external identity verification services.
+for v2.0); a mobile native SDK for signal collection; integration with
+external identity verification services; and daily rewards, streaks, and
+other gamification mechanics built on the daily prompt (future expansion on
+the v1 engagement loop).
