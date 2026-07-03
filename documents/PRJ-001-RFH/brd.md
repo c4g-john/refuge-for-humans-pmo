@@ -4,7 +4,7 @@ id: RFH-brd
 project: PRJ-001-RFH
 title: Refuge for Humans — Business Requirements
 owner: johntanner
-status: draft
+status: approved
 ---
 
 ## Purpose
