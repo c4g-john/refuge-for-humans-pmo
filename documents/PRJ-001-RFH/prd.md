@@ -35,6 +35,7 @@ thoughtful writing space, not a security checkpoint.
 - **RFH-PR-015** (traces: RFH-BR-001): Signal payloads shall be tamper-evident: signed client-side and validated by the backend before processing.
 - **RFH-PR-016** (traces: RFH-BR-002): Verification shall not penalize users with motor disabilities or atypical input patterns; per-user baseline calibration shall keep false positives within the business threshold across user populations.
 - **RFH-PR-017** (traces: RFH-BR-007): Signal data shall be privacy-bounded: raw payloads retained for 90 days, fingerprints for the life of the account, user-requested deletion honored (removing raw payloads and resetting the fingerprint), encryption at rest and in transit, and no third-party sharing or advertising use.
+- **RFH-PR-018** (traces: RFH-BR-003): Full signal collection shall work on current Chrome, Firefox, Safari, and Edge, with graceful degradation of mouse signals on mobile browsers.
 
 ## Acceptance Criteria
 
@@ -61,3 +62,4 @@ thoughtful writing space, not a security checkpoint.
 - **RFH-AC-021** (verifies: RFH-PR-015): Given a signal payload altered after signing, when the backend validates the signature, then the payload is rejected before processing.
 - **RFH-AC-022** (verifies: RFH-PR-016): Given sessions with atypical input patterns (assistive input, dictation cadence, non-native keyboards) scored against an established per-user baseline, when verdicts are compared with typical-input controls, then they do not differ systematically.
 - **RFH-AC-023** (verifies: RFH-PR-017): Given a user's deletion request, when it completes, then raw signal payloads are removed and the fingerprint is reset; and given stored signal data, when audited, then it is encrypted at rest.
+- **RFH-AC-024** (verifies: RFH-PR-018): Given current Chrome, Firefox, Safari, and Edge, when a writing session runs on each, then all four signal classes are collected; and given a mobile browser without pointer signals, when a session runs, then collection degrades gracefully and the remaining classes are captured.

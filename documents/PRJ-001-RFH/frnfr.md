@@ -26,11 +26,12 @@ transmitted to the verification layer.
 
 ## Non-Functional Requirements
 
-- **RFH-NFR-001** (traces: RFH-PR-012): Client-side scoring shall complete within 100ms of submission, and the backend fingerprint response within 2 seconds.
+- **RFH-NFR-001** (traces: RFH-PR-012): Client-side scoring shall complete within 100ms of submission.
 - **RFH-NFR-002** (traces: RFH-PR-012): Signal collection shall add no perceptible latency, with a JavaScript execution budget under 5ms per event.
 - **RFH-NFR-003** (traces: RFH-PR-013): The verification service shall target 99.9% uptime, and in degraded mode (backend unavailable) the client-side score alone shall determine the verdict.
 - **RFH-NFR-004** (traces: RFH-PR-014): The signal ingestion pipeline shall handle a burst load of 10,000 concurrent submissions without degradation.
 - **RFH-NFR-005** (traces: RFH-PR-015): Signal payloads shall be signed client-side and the signature validated by the backend before processing.
-- **RFH-NFR-006** (traces: RFH-PR-011): Full signal collection shall work on current Chrome, Firefox, Safari, and Edge, with graceful degradation of mouse signals on mobile browsers.
+- **RFH-NFR-006** (traces: RFH-PR-018): Full signal collection shall work on current Chrome, Firefox, Safari, and Edge, with graceful degradation of mouse signals on mobile browsers.
 - **RFH-NFR-007** (traces: RFH-PR-016): The verification layer shall not penalize users with motor disabilities or atypical input patterns; per-user baseline calibration shall mitigate population-level bias.
+- **RFH-NFR-009** (traces: RFH-PR-006): The backend response that determines the verdict, including fingerprint retrieval, shall complete within 2 seconds of submission so the verdict deadline holds.
 - **RFH-NFR-008** (traces: RFH-PR-017): Raw signal payloads shall be retained for 90 days and aggregated fingerprints for the account's life; users may request deletion (removing raw payloads and resetting the fingerprint); signal data shall be encrypted at rest and in transit and never shared with third parties or used for advertising.
