@@ -1,7 +1,7 @@
-# Local override for PRJ-001-RFH: the docassert 0.12.0 packaged defaults with
-# alignment_limit raised to 150 so one keyed run grades the whole graph.
-# A local consistency.yaml replaces the packaged one entirely, so everything
-# else below matches the packaged copy verbatim.
+# Local override for PRJ-001-RFH: the docassert packaged defaults with
+# alignment_limit raised to 150 (one keyed run grades the whole graph) and
+# the story slice rubric. A local consistency.yaml replaces the packaged one
+# entirely, so everything else below matches the packaged copy verbatim.
 # Cross-document traceability rules.
 #
 # The chain: BR (business req) ◀ PR (product req) ◀ FR/NFR (spec)
@@ -55,6 +55,13 @@ alignment:
       plausibly and materially contribute to achieving the parent outcome.
       The child need not restate the metric; penalise only mechanisms that
       would not meaningfully move the parent outcome, or that contradict it.
+  - relation: traces
+    child_type: US
+    prompt: >
+      The CHILD is a user story implementing the PARENT requirement. A story
+      may deliver one slice of the requirement, with sibling stories covering
+      the rest, so do not penalise a story for partial coverage. Penalise
+      stories that implement nothing the parent states or contradict it.
   - relation: traces
     prompt: >
       Judge whether the CHILD requirement genuinely refines or implements the
