@@ -25,7 +25,7 @@ cross-account pattern analysis.
 - **RFH-BR-003**: The business shall establish behavioral biometrics as the primary human-verification layer, weighted at 60% of the composite score.
 - **RFH-BR-004**: The business shall build per-user fingerprints that outperform generic threshold scoring by at least 30% after 10 posts.
 - **RFH-BR-005**: The business shall identify coordinated bot networks of 5 or more accounts within 48 hours of activation.
-- **RFH-BR-006**: The business shall keep verification invisible in normal use, with writers publishing free of verification-caused delay or stalls, holding verification friction below 1% of users contacting support about verification issues.
+- **RFH-BR-006**: The business shall keep verification effortless and transparent for writers, demanding no verification tasks, adding no verification-caused delay or stalls to publishing, and showing writers where they stand rather than surprising them, holding verification friction below 1% of users contacting support about verification issues.
 - **RFH-BR-007**: The business shall build a compounding behavioral and content signal corpus as a durable data asset.
 - **RFH-BR-008**: The business shall establish daily writing as a habit, with the daily prompt anchoring a per-day engagement loop, targeting a daily-to-weekly active writer ratio of 40% or higher at steady state.
 
