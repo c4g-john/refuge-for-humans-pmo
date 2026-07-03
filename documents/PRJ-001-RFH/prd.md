@@ -21,7 +21,7 @@ thoughtful writing space, not a security checkpoint.
 - **RFH-PR-001** (traces: RFH-BR-003): The platform shall present a daily prompt before the writing textarea is active.
 - **RFH-PR-002** (traces: RFH-BR-003): Signal collection shall begin at page load, before the user has typed anything.
 - **RFH-PR-003** (traces: RFH-BR-006): The human confidence score shall be displayed in real time, updating at minimum every 500ms, with individual signal indicators visible during writing.
-- **RFH-PR-004** (traces: RFH-BR-001): The submit button shall be disabled until a configurable minimum character threshold (default 20) is reached, and paste events shall trigger a visible, non-blocking notification.
+- **RFH-PR-004** (traces: RFH-BR-001): The submit button shall be disabled until a configurable minimum character threshold (default 20) is reached, so that every submission carries enough behavioral signal for a reliable verdict, and paste events shall trigger a visible, non-blocking notification so pasted text is weighed by the content heuristics.
 - **RFH-PR-005** (traces: RFH-BR-003): The composite score shall be calculated as 60% behavioral plus 40% content, both computed client-side, with the signal payload transmitted to the backend on submission regardless of score.
 - **RFH-PR-006** (traces: RFH-BR-001): A verdict shall be returned within 2 seconds of submission: 70+ publishes, 40–69 is held as suspect with a plain-language explanation, below 40 is blocked with a plain-language explanation.
 - **RFH-PR-007** (traces: RFH-BR-004): For users with 10 or more prior posts, the backend shall apply fingerprint-relative scoring, weighting sudden deviations from the user's baseline heavily regardless of absolute score.
