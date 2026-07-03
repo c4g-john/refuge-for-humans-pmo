@@ -4,5 +4,5 @@ projects:
 - id: PRJ-001-RFH
   code: RFH
   name: Refuge for Humans
-  sponsor: C4G Enterprises Inc.
-  status: proposed
+  sponsor: John Tanner
+  status: active

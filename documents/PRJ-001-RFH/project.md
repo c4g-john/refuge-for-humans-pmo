@@ -3,8 +3,8 @@ kind: project
 id: PRJ-001-RFH
 code: RFH
 name: Refuge for Humans
-sponsor: C4G Enterprises Inc.
-status: proposed
+sponsor: John Tanner
+status: active
 profile: lean-startup
 ---
 
@@ -17,7 +17,6 @@ expression by verifying human authorship through passive behavioral biometrics
 fail are blocked or flagged before publication, and the platform grows more
 accurate with use as per-user fingerprints and cross-account analysis compound.
 
-<!-- TODO: sponsor is currently the company; name the accountable individual. -->
 
 ## Scope
 
