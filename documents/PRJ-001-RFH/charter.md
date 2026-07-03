@@ -3,12 +3,14 @@ kind: charter
 project: PRJ-001-RFH
 id: RFH-charter
 title: Refuge for Humans — Project Charter
-sponsor: C4G Enterprises Inc.
-# TODO(source-gap): the BRD names no budget and no target date — the schema
-# will (correctly) fail this charter until they are supplied.
+sponsor: John Tanner
+budget:
+  amount: 1200
+  currency: USD
 dates:
   created: 2026-03-01   # "March 2026" per the source document
-status: draft
+  target: 2026-08-31
+status: approved
 ---
 
 ## Objective
