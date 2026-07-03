@@ -28,6 +28,14 @@ thoughtful writing space, not a security checkpoint.
 - **RFH-PR-008** (traces: RFH-BR-004): The fingerprint shall update after each verified-human submission, exclude suspect-verdict submissions pending review, and flag accounts whose composite score drops more than 20 points below their rolling mean.
 - **RFH-PR-009** (traces: RFH-BR-005): Network fingerprint comparison shall run asynchronously within 60 seconds of each submission, flagging clusters of 5 or more accounts with above-threshold similarity into the administrator investigation queue without affecting submission latency.
 - **RFH-PR-010** (traces: RFH-BR-007): Administrators shall have per-user signal history, fingerprint and verdict views, manual verdict override, a network cluster view, an audit log of administrative actions with timestamp and operator ID, and a daily metrics dashboard (post volume, bot block rate, suspect rate, false-positive reports).
+- **RFH-PR-011** (traces: RFH-BR-003): The platform shall collect behavioral signals in four classes as inputs to the behavioral score: keystroke dynamics, mouse and pointer behavior, session and focus context, and text evolution.
+- **RFH-PR-012** (traces: RFH-BR-006): Verification shall stay imperceptible while writing and instant at submission: signal collection shall keep a JavaScript execution budget under 5ms per event, and client-side scoring shall complete within 100ms of submission.
+- **RFH-PR-013** (traces: RFH-BR-006): The verification service shall target 99.9% uptime, and when the backend is unavailable the client-side score alone shall determine the verdict so that publishing never stalls.
+- **RFH-PR-014** (traces: RFH-BR-007): The signal ingestion pipeline shall sustain burst loads of 10,000 concurrent submissions without degradation.
+- **RFH-PR-015** (traces: RFH-BR-001): Signal payloads shall be tamper-evident: signed client-side and validated by the backend before processing.
+- **RFH-PR-016** (traces: RFH-BR-002): Verification shall not penalize users with motor disabilities or atypical input patterns; per-user baseline calibration shall keep false positives within the business threshold across user populations.
+- **RFH-PR-017** (traces: RFH-BR-007): Signal data shall be privacy-bounded: raw payloads retained for 90 days, fingerprints for the life of the account, user-requested deletion honored (removing raw payloads and resetting the fingerprint), encryption at rest and in transit, and no third-party sharing or advertising use.
+- **RFH-PR-018** (traces: RFH-BR-003): Full signal collection shall work on current Chrome, Firefox, Safari, and Edge, with graceful degradation of mouse signals on mobile browsers.
 
 ## Acceptance Criteria
 
@@ -47,3 +55,11 @@ thoughtful writing space, not a security checkpoint.
 - **RFH-AC-014** (verifies: RFH-PR-010): Given an administrator viewing a user, when the record opens, then signal history, fingerprint, and verdict views are available and a manual verdict override can be applied.
 - **RFH-AC-015** (verifies: RFH-PR-010): Given any administrative action, when it completes, then the audit log holds an entry with timestamp and operator ID.
 - **RFH-AC-016** (verifies: RFH-PR-010): Given the daily metrics dashboard, when an administrator opens it, then post volume, bot block rate, suspect rate, and false-positive reports are shown.
+- **RFH-AC-017** (verifies: RFH-PR-011): Given a completed writing session, when the submission payload is inspected, then it carries signals from all four classes: keystroke dynamics, pointer behavior, session and focus context, and text evolution.
+- **RFH-AC-018** (verifies: RFH-PR-012): Given collection active during writing, when any signal handler executes, then it completes within 5ms; and when client-side scoring runs at submission, then it completes within 100ms.
+- **RFH-AC-019** (verifies: RFH-PR-013): Given the backend is unreachable, when a user submits, then the client-side score alone determines the verdict and publishing proceeds without error.
+- **RFH-AC-020** (verifies: RFH-PR-014): Given a burst of 10,000 concurrent submissions, when the ingestion pipeline processes them, then none are dropped and processing latency does not degrade.
+- **RFH-AC-021** (verifies: RFH-PR-015): Given a signal payload altered after signing, when the backend validates the signature, then the payload is rejected before processing.
+- **RFH-AC-022** (verifies: RFH-PR-016): Given sessions with atypical input patterns (assistive input, dictation cadence, non-native keyboards) scored against an established per-user baseline, when verdicts are compared with typical-input controls, then they do not differ systematically.
+- **RFH-AC-023** (verifies: RFH-PR-017): Given a user's deletion request, when it completes, then raw signal payloads are removed and the fingerprint is reset; and given stored signal data, when audited, then it is encrypted at rest.
+- **RFH-AC-024** (verifies: RFH-PR-018): Given current Chrome, Firefox, Safari, and Edge, when a writing session runs on each, then all four signal classes are collected; and given a mobile browser without pointer signals, when a session runs, then collection degrades gracefully and the remaining classes are captured.
