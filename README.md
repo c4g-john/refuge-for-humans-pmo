@@ -8,19 +8,19 @@ The Refuge for Humans project run as
 on every pull request, converted faithfully from `Refuge for Humans BRD.docx`
 (v1.0, March 2026).
 
-**Faithful over passing:** where the source BRD has gaps, the audit reports
-them. Everything is `status: draft`, so (as of docassert 0.7.0) the gaps are
-**advisory** — drafts merge; flipping a document to `proposed` turns its
-completeness gate on. The to-do list:
+**Faithful over passing.** At import, nothing was invented to make checks
+green — the audit reported the source document's real gaps instead: a charter
+with no budget, target date, or milestones; five risks with no probability,
+impact, or owner; six of ten product requirements without an acceptance
+criterion. Every one of those gaps was then closed the only way this repo
+allows: through pull requests that the gate re-checked. Today the register is
+complete, every business requirement traces through requirements, acceptance
+criteria, and test cases, and the documents are approved — any new gap shows
+up on the dashboard, not in this README.
 
-- **Charter** — the source names no **budget** and no **target date**; sponsor
-  is the company, not a person. Milestones are missing entirely.
-- **Risk register** — all five risks lack **probability, impact, and owner**
-  (the source gives only descriptions + mitigations).
-- **Coverage** — 6 of 10 product requirements have **no acceptance criterion**
-  yet (see `docassert status --project PRJ-001-RFH`).
-
-Fix them in PRs; the gate re-checks automatically.
+Delivery runs from the documents: the docassert bridge scaffolds Features and
+Stories into [refuge-for-humans-app](https://github.com/c4g-john/refuge-for-humans-app)
+from the approved user stories, and polices scope against them.
 
 ```bash
 pipx install docassert
