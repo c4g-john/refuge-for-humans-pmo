@@ -1,0 +1,63 @@
+name: scope dispatch
+
+# Scope changes should reach the delivery boards in seconds, not at the next
+# cron. On any documents/ change on main, dispatch the bridge scaffold of each
+# affected project's mapped repository. Same-repo projects use the built-in
+# token (workflow_dispatch is exempt from GITHUB_TOKEN's no-retrigger rule);
+# cross-repo projects use DISPATCH_TOKEN, a fine-grained PAT holding only
+# Actions read/write on the target repos. The two-hourly scaffold crons stay
+# as the level-triggered backstop; this is the edge trigger.
+on:
+  push:
+    branches: [main]
+    paths: ["documents/**"]
+  workflow_dispatch:
+    inputs:
+      project:
+        description: "PRJ id to dispatch regardless of diff (e.g. PRJ-004-ADO)"
+        required: false
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: scope-dispatch
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Route changed projects to their mapped repositories
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DISPATCH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          FORCED: ${{ inputs.project }}
+        run: |
+          if [ -n "$FORCED" ]; then
+            projects="$FORCED"
+          else
+            base="$BEFORE"
+            case "$base" in ""|0000000000000000000000000000000000000000) base="$AFTER~1";; esac
+            projects=$(git diff --name-only "$base" "$AFTER" -- documents/ | awk -F/ '/^documents\// {print $2}' | sort -u)
+          fi
+          if [ -z "$projects" ]; then echo "no project documents changed"; exit 0; fi
+          for prj in $projects; do
+            anchor="documents/$prj/project.md"
+            if [ ! -f "$anchor" ]; then echo "$prj: no anchor, skipping"; continue; fi
+            repo=$(grep -E "^repo:" "$anchor" | head -n1 | sed 's/^repo:[[:space:]]*//' | tr -d '"' | tr -d "'")
+            if [ -z "$repo" ]; then echo "$prj: no repo mapping"; continue; fi
+            if [ "$repo" = "$GITHUB_REPOSITORY" ]; then
+              gh workflow run bridge-scaffold.yml --repo "$repo" && echo "$prj -> $repo (same-repo)"
+            elif [ -n "$DISPATCH_TOKEN" ]; then
+              GH_TOKEN="$DISPATCH_TOKEN" gh workflow run bridge-scaffold.yml --repo "$repo" && echo "$prj -> $repo (dispatched)"
+            else
+              echo "::notice::$prj -> $repo not dispatched (DISPATCH_TOKEN unset); the scheduled scaffold converges within two hours"
+            fi
+          done
