@@ -48,15 +48,30 @@ jobs:
             projects=$(git diff --name-only "$base" "$AFTER" -- documents/ | awk -F/ '/^documents\// {print $2}' | sort -u)
           fi
           if [ -z "$projects" ]; then echo "no project documents changed"; exit 0; fi
+          declare -A routed=()
           for prj in $projects; do
             anchor="documents/$prj/project.md"
             if [ ! -f "$anchor" ]; then echo "$prj: no anchor, skipping"; continue; fi
             repo=$(grep -E "^repo:" "$anchor" | head -n1 | sed 's/^repo:[[:space:]]*//' | tr -d '"' | tr -d "'")
             if [ -z "$repo" ]; then echo "$prj: no repo mapping"; continue; fi
+            # One scaffold handles every project mapped to its target repo.
+            if [ -n "${routed[$repo]:-}" ]; then
+              echo "$prj -> $repo already routed in this run"
+              continue
+            fi
+            routed["$repo"]=1
             if [ "$repo" = "$GITHUB_REPOSITORY" ]; then
-              gh workflow run bridge-scaffold.yml --repo "$repo" && echo "$prj -> $repo (same-repo)"
+              # A documents push already starts the local scaffold directly.
+              # Keep explicit manual dispatches, including forced projects.
+              if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+                echo "$prj -> $repo (handled by the direct push trigger)"
+                continue
+              fi
+              gh workflow run bridge-scaffold.yml --repo "$repo"
+              echo "$prj -> $repo (same-repo)"
             elif [ -n "$DISPATCH_TOKEN" ]; then
-              GH_TOKEN="$DISPATCH_TOKEN" gh workflow run bridge-scaffold.yml --repo "$repo" && echo "$prj -> $repo (dispatched)"
+              GH_TOKEN="$DISPATCH_TOKEN" gh workflow run bridge-scaffold.yml --repo "$repo"
+              echo "$prj -> $repo (dispatched)"
             else
               echo "::notice::$prj -> $repo not dispatched (DISPATCH_TOKEN unset); the scheduled scaffold converges within two hours"
             fi
