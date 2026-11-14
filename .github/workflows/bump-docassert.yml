@@ -8,9 +8,9 @@ name: bump docassert
 # (GitHub limitation) — the verification below runs inside this workflow
 # instead, and an admin merge (or close/reopen to trigger checks) lands it.
 on:
-  schedule:
-    - cron: "23 */2 * * *"
   workflow_dispatch:
+  repository_dispatch:
+    types: [docassert-release]
 
 permissions:
   contents: write

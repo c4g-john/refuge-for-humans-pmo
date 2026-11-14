@@ -12,13 +12,14 @@ name: status dashboard
 on:
   push:
     branches: [main]
+  workflow_run:
+    workflows: ["bridge scaffold"]
+    types: [completed]
   workflow_dispatch:
-  # Level-triggered convergence: the dashboard reconciles to HEAD on a
-  # fixed cadence even if every push-triggered deploy failed. Offsets are
-  # staggered per repo so scheduled rebuilds can never collide.
-  schedule:
-    - cron: "31 */2 * * *"
-
+  repository_dispatch:
+    types: [status-update]
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
 permissions:
   contents: read
   pages: write
@@ -30,7 +31,7 @@ concurrency:
 
 jobs:
   build-deploy:
-    if: vars.DOCASSERT_PAGES == 'true'
+    if: vars.DOCASSERT_PAGES == 'true' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     environment:
       name: github-pages

@@ -5,8 +5,8 @@ name: scope dispatch
 # affected project's mapped repository. Same-repo projects use the built-in
 # token (workflow_dispatch is exempt from GITHUB_TOKEN's no-retrigger rule);
 # cross-repo projects use DISPATCH_TOKEN, a fine-grained PAT holding only
-# Actions read/write on the target repos. The two-hourly scaffold crons stay
-# as the level-triggered backstop; this is the edge trigger.
+# Actions read/write on the target repos.
+# Missing credentials are reported explicitly; no periodic polling remains.
 on:
   push:
     branches: [main]
@@ -48,6 +48,7 @@ jobs:
             projects=$(git diff --name-only "$base" "$AFTER" -- documents/ | awk -F/ '/^documents\// {print $2}' | sort -u)
           fi
           if [ -z "$projects" ]; then echo "no project documents changed"; exit 0; fi
+          failures=0
           declare -A routed=()
           for prj in $projects; do
             anchor="documents/$prj/project.md"
@@ -67,12 +68,25 @@ jobs:
                 echo "$prj -> $repo (handled by the direct push trigger)"
                 continue
               fi
-              gh workflow run bridge-scaffold.yml --repo "$repo"
-              echo "$prj -> $repo (same-repo)"
+              if gh workflow run bridge-scaffold.yml --repo "$repo"; then
+                echo "$prj -> $repo (same-repo)"
+              else
+                echo "::error::Dispatch failed for $repo"
+                echo "- Retry [bridge scaffold](https://github.com/$repo/actions/workflows/bridge-scaffold.yml)." >> "$GITHUB_STEP_SUMMARY"
+                failures=1
+              fi
             elif [ -n "$DISPATCH_TOKEN" ]; then
-              GH_TOKEN="$DISPATCH_TOKEN" gh workflow run bridge-scaffold.yml --repo "$repo"
-              echo "$prj -> $repo (dispatched)"
+              if GH_TOKEN="$DISPATCH_TOKEN" gh workflow run bridge-scaffold.yml --repo "$repo"; then
+                echo "$prj -> $repo (dispatched)"
+              else
+                echo "::error::Cross-repository dispatch failed for $repo"
+                echo "- Retry [bridge scaffold](https://github.com/$repo/actions/workflows/bridge-scaffold.yml); check the existing DISPATCH_TOKEN access." >> "$GITHUB_STEP_SUMMARY"
+                failures=1
+              fi
             else
-              echo "::notice::$prj -> $repo not dispatched (DISPATCH_TOKEN unset); the scheduled scaffold converges within two hours"
+              echo "::error::$prj -> $repo not dispatched: DISPATCH_TOKEN is unset. No scheduled fallback exists."
+              echo "- Run [bridge scaffold](https://github.com/$repo/actions/workflows/bridge-scaffold.yml) manually. Automatic cross-repository delivery requires an existing authorized DISPATCH_TOKEN." >> "$GITHUB_STEP_SUMMARY"
+              failures=1
             fi
           done
+          exit "$failures"
